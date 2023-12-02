@@ -1,34 +1,36 @@
-    const player = document.getElementById('player');
-    const canvas = document.getElementById('canvas');
-    const context = canvas.getContext('2d');
-    // const nav= document.querySelector("nav");
-    
-    const captureButton = document.getElementById('capture');
+const image = document.getElementById("img");
+// 1. Obtenir une référence sur l’élément <video>
+const player = document.getElementById("player");
+// 2. Créer un canevas aux dimensions de la vidéo
+const canvas = document.getElementById("canvas");
+// 3. Obtenir le contexte de dessin du canevas
+const context = canvas.getContext("2d");
 
+const captureButton = document.getElementById("capture");
+const galleryButton = document.getElementById("gallery");
 
-    //corrrection stack overflow pour permetre en plus de la caméra avant l'accès a la camera arrière
-    const constraints = {
-    audio: true,
-    video:true,
-    facingMode: { exact: "environment" },  
-  }
+// changer le champ src a partir de la gallery
+galleryButton.addEventListener("change", () => {
+  image.src = URL.createObjectURL(galleryButton.files[0]);
+});
 
-  
+const constraints = {
+  // audio: true,
+  video: true,
+  facingMode: { exact: "environment" },
+};
+// Attachez le flux vidéo à l'élément vidéo et à la lecture automatique.
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  player.srcObject = stream;
+});
 
-    captureButton.addEventListener('click', () => {
-        // Draw the video frame to the canvas.
-        context.drawImage(player, 0, 0, canvas.width, canvas.height);
-    });
-
-    // Attach the video stream to the video element and autoplay.
-    navigator.mediaDevices.getUserMedia(constraints)
-        .then((stream) => {
-            player.srcObject = stream;
-        });    
-//    window.addEventListener("scroll",(e)=>{
-//     if(window.scrollY> 12){
-//     nav.style.top="0";
-//     }else{
-//         nav.style.top="-50px";
-//     }
-//  })
+//changer le champ src a partir de la cameras video
+captureButton.addEventListener("click", () => {
+  // 4. Capturer l’image actuelle de la vidéo
+  context.drawImage(player, 0, 0, canvas.width, canvas.height);
+  // 5. Convertir l’image capturée en fichier, et créer un lien vers ce fichier
+  canvas.toBlob(function (blob) {
+    image.src = URL.createObjectURL(blob);
+    canvas.remove();
+  });
+});
