@@ -18,6 +18,7 @@ body {
   background-attachment: fixed;
   background-size: cover;
 }
+
 nav {
   background: rgba(0, 0, 0, 0.173);
   position: fixed;
@@ -58,7 +59,8 @@ label,
 input {
   display: none;
 }
-/* canvas, */
+
 img {
+  visibility: hidden;
   border-radius: 30px;
 }

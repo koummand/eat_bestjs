@@ -12,6 +12,8 @@ const galleryButton = document.getElementById("gallery");
 // changer le champ src a partir de la gallery
 galleryButton.addEventListener("change", () => {
   image.src = URL.createObjectURL(galleryButton.files[0]);
+  canvas.remove();
+  image.style.visibility = "visible";
 });
 
 const constraints = {
@@ -32,5 +34,6 @@ captureButton.addEventListener("click", () => {
   canvas.toBlob(function (blob) {
     image.src = URL.createObjectURL(blob);
     canvas.remove();
+    image.style.visibility = "visible";
   });
 });
